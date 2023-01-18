@@ -9,10 +9,11 @@ export my_dir=$my_dir
 
 cd $my_dir/scripts || exit 1
 
-if [ "$(uname -m)" != "aarch64" ];then
+arch=$(uname -m)
+if [ $arch != "aarch64" ] && [ $arch != "x86_64" ];then
   echo "BirdNET-Pi requires a 64-bit OS.
 It looks like your operating system is using $(uname -m),
-but would need to be aarch64.
+but would need to be aarch64 or x86_64.
 Please take a look at https://birdnetwiki.pmcgui.xyz for more
 information"
   exit 1
@@ -28,7 +29,11 @@ install_birdnet() {
   echo "Establishing a python virtual environment"
   python3 -m venv birdnet
   source ./birdnet/bin/activate
-  pip3 install -U -r $HOME/BirdNET-Pi/requirements.txt
+  if [ $arch == "aarch64" ]; then
+    pip3 install -U -r $HOME/BirdNET-Pi/requirements.txt
+  elif [ $arch == "x86_64" ]; then
+    pip3 install -U -r $HOME/BirdNET-Pi/requirements-x86.txt
+  fi
 }
 
 [ -d ${RECS_DIR} ] || mkdir -p ${RECS_DIR} &> /dev/null
