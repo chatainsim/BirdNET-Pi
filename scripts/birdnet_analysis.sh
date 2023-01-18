@@ -39,10 +39,10 @@ if [ ! -f ${EXCLUDE_LIST} ];then
   touch ${EXCLUDE_LIST} &&
     chmod g+rw ${EXCLUDE_LIST}
 fi
-if [ "$(du ${INCLUDE_LIST} | awk '{print $1}')" -lt 4 ];then
+if [ "$(du -b ${INCLUDE_LIST} | awk '{print $1}')" -lt 4 ];then
 	INCLUDE_LIST=null
 fi
-if [ "$(du ${EXCLUDE_LIST} | awk '{print $1}')" -lt 4 ];then
+if [ "$(du -b ${EXCLUDE_LIST} | awk '{print $1}')" -lt 4 ];then
 	EXCLUDE_LIST=null
 fi
 
